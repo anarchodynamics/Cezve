@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS Users (
     UserID INTEGER PRIMARY KEY,
     User TEXT NOT NULL,
     Password TEXT NOT NULL,
-    UserIsAdmin BOOLEAN,
     TopLevelDirectoryPath TEXT NOT NULL
 );
 

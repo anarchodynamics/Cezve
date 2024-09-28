@@ -6,12 +6,12 @@
         <artifactId>CezvePackages</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>CezveServer</artifactId>
+    <artifactId>CezveGateway</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <exec.mainClass>com.anarchodynamics.cezveserver.CezveServer</exec.mainClass>
+        <exec.mainClass>com.anarchodynamics.cezvegateway.CezveGateway</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>

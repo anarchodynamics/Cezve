@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
-package com.anarchodynamics.cezveserver;
+package com.anarchodynamics.cezvegateway;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +6,7 @@ import java.io.IOException;
 /**
  * @author anon
  */
-public class CezveServer {
+public class CezveGateway {
 
   private static Server serverInstance;
 
