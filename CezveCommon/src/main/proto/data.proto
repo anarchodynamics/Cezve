@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package cezve;
+
+option java_package = "cezve.grpc";
+option java_multiple_files = true;
+
+//proto services for data - send/get. Consider using a variant of SendFile to update existing files.
+
+service Data{
+
+    rpc GetFile (GetFileRequest) returns (stream FileChunk);
+    rpc SendFile (stream SendFileRequest) returns (SendFileResponse);
+}
+
+message SendFileRequest {
+    string file_name = 1;
+    string session_id = 2;
+    FileChunk chunk = 3; // Embeds FileChunk to carry file data in each request
+}
+
+message GetFileRequest {
+    bool success = 1;
+    string file_name = 2;
+    string session_id = 3;
+}
+
+message FileChunk {
+    bytes filecontent = 1;
+    int64 chunk_number = 2;
+    bool is_last_chunk = 3;
+}
+
+message SendFileResponse{
+    bool success = 1;
+    string file_name = 2;
+}

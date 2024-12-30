@@ -9,8 +9,8 @@
     <artifactId>CezveGateway</artifactId>
     <packaging>jar</packaging>
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
         <exec.mainClass>com.anarchodynamics.cezvegateway.CezveGateway</exec.mainClass>
     </properties>
     <dependencies>

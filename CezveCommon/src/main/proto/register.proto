@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package cezve;
+
+option java_package = "cezve.grpc";
+option java_multiple_files = true;
+
+service Register{
+
+    rpc RegisterRequest (SendRegisterReq) returns (RegisterResponse);
+    rpc UpdateServiceStatus (ServiceUpdate) returns (UpdateResponse);
+}
+
+message SendRegisterReq{
+     string service_type = 1;
+     string service_name = 2;
+}
+
+message ServiceUpdate{
+    string service_name = 1;
+    string service_version = 2;
+    string service_token = 3;
+    
+    // Resource metrics
+    double cpu_usage_percent = 4;
+    double memory_usage_percent = 5;
+    double disk_usage_percent = 6;
+    double network_inbound_kbps = 7;
+    double network_outbound_kbps = 8;
+
+    // Thread and connection metrics
+    int32 active_threads = 9;
+    int32 available_threads = 10;
+    int32 open_connections = 11;
+
+    // Request and throughput metrics
+    double requests_per_second = 12;
+    double avg_request_latency_ms = 13;
+    double error_rate_percent = 14;
+
+    // Queue and task metrics
+    int32 queue_length = 15;
+    double avg_queue_wait_time_ms = 16;
+    int64 completed_tasks = 17;
+
+    // Health and status
+    string service_status = 18;         // "HEALTHY", "DEGRADED", "UNAVAILABLE"
+    int32 error_count = 19;
+    int32 warning_count = 20;
+    string last_restart_time = 21;      // ISO 8601 format
+    int64 uptime_seconds = 22;
+
+}
+
+message RegisterResponse{
+     string receiver_name = 1;  //API gateway self-reported name. 
+     bool registered_status = 2;
+     string service_token = 3; //generated token for identification. Note that this does not authorise anything.
+}
+
+message UpdateResponse{
+     string receiver_name = 1;  //API gateway self-reported name. 
+     string responseStatus = 2; //For logging/acknowledging.
+}

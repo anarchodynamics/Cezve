@@ -8,7 +8,6 @@
     <modules>
         <module>CezveCommon</module>
         <module>CezveGateway</module>
-        <module>TestClientUno</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
