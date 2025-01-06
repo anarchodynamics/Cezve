@@ -3,15 +3,19 @@ import java.time.Instant;
 
 public class ServiceInfo
 {
-    public ServiceInfo(String serviceNameInit, String serviceTypeInit)
+    public ServiceInfo(String serviceNameInit, String serviceTypeInit, String serviceAddress, int port)
     {
         this.serviceName = serviceNameInit;
         this.serviceType = serviceTypeInit;
+        this.serviceAddress = serviceAddress;
+        this.servicePort = port;
 
     }
     public String serviceName;
     public String serviceType; //descriptor for matching services to clients etc.
     public String serviceVersion;
+    public String serviceAddress;
+    public int servicePort;
     
     public Double cpuUsagePercent;
     public Double memoryUsagePercent;

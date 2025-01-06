@@ -14,41 +14,45 @@ service Register{
 message SendRegisterReq{
      string service_type = 1;
      string service_name = 2;
+     string service_address = 3;
+     int32 service_port = 4;
 }
 
 message ServiceUpdate{
     string service_name = 1;
     string service_version = 2;
     string service_token = 3;
+    string service_address = 4;
+    int32 service_port = 5;
     
     // Resource metrics
-    double cpu_usage_percent = 4;
-    double memory_usage_percent = 5;
-    double disk_usage_percent = 6;
-    double network_inbound_kbps = 7;
-    double network_outbound_kbps = 8;
+    double cpu_usage_percent = 6;
+    double memory_usage_percent = 7;
+    double disk_usage_percent = 8;
+    double network_inbound_kbps = 9;
+    double network_outbound_kbps = 10;
 
     // Thread and connection metrics
-    int32 active_threads = 9;
-    int32 available_threads = 10;
-    int32 open_connections = 11;
+    int32 active_threads = 11;
+    int32 available_threads = 12;
+    int32 open_connections = 13;
 
     // Request and throughput metrics
-    double requests_per_second = 12;
-    double avg_request_latency_ms = 13;
-    double error_rate_percent = 14;
+    double requests_per_second = 14;
+    double avg_request_latency_ms = 15;
+    double error_rate_percent = 16;
 
     // Queue and task metrics
-    int32 queue_length = 15;
-    double avg_queue_wait_time_ms = 16;
-    int64 completed_tasks = 17;
+    int32 queue_length = 17;
+    double avg_queue_wait_time_ms = 18;
+    int64 completed_tasks = 19;
 
     // Health and status
-    string service_status = 18;         // "HEALTHY", "DEGRADED", "UNAVAILABLE"
-    int32 error_count = 19;
-    int32 warning_count = 20;
-    string last_restart_time = 21;      // ISO 8601 format
-    int64 uptime_seconds = 22;
+    string service_status = 20;         // "HEALTHY", "DEGRADED", "UNAVAILABLE"
+    int32 error_count = 21;
+    int32 warning_count = 22;
+    string last_restart_time = 23;      // ISO 8601 format
+    int64 uptime_seconds = 24;
 
 }
 

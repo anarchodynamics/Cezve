@@ -30,6 +30,8 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
  
         String serviceType = request.getServiceType();
         String serviceName = request.getServiceName();
+        String serviceAddress = request.getServiceAddress();
+        int servicePort = request.getServicePort();
 
         boolean registeredStatus = false;
 
@@ -37,7 +39,7 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
         String token = UUID.randomUUID().toString().replace("-", "").substring(0, 24);
         try
         {
-            this.registry.registerService(serviceName,serviceType, token);
+            this.registry.registerService(serviceName,serviceType,serviceAddress, servicePort, token);
 
             registeredStatus = true;
 

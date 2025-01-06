@@ -2,8 +2,9 @@ package com.anarchodynamics.cezvegateway;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 //import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class ServiceRegistry {
                 .forAddress(address, port)
                 .usePlaintext() // Disable SSL for local testing; enable in production
                 .build();
-        rpcServices = new HashMap<>();
+        rpcServices = new ConcurrentHashMap<>();
     }
 
     /**
@@ -26,9 +27,9 @@ public class ServiceRegistry {
      *
      * @param serviceName the name of the service to register.
      */
-    public boolean registerService(String serviceName, String serviceType, String token) {
+    public boolean registerService(String serviceName, String serviceType, String serviceAddress, int servicePort, String token) {
         try{
-        rpcServices.put(token, new ServiceInfo(serviceName, serviceType));
+        rpcServices.put(token, new ServiceInfo(serviceName, serviceType, serviceAddress,servicePort));
         return true;
         }
         catch(Exception e)
@@ -48,6 +49,8 @@ public class ServiceRegistry {
         return rpcServices.get(token);
     }
 
+    //may not be needed
+    /*
     public boolean updateServiceInfo(String token, ServiceInfo updatedInfo)
     {
             ServiceInfo existingInfo = rpcServices.get(token);
@@ -91,6 +94,7 @@ public class ServiceRegistry {
 
 
     }
+    */
 
 
     /**
