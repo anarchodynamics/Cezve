@@ -49,53 +49,6 @@ public class ServiceRegistry {
         return rpcServices.get(token);
     }
 
-    //may not be needed
-    /*
-    public boolean updateServiceInfo(String token, ServiceInfo updatedInfo)
-    {
-            ServiceInfo existingInfo = rpcServices.get(token);
-        if (existingInfo == null) {
-            System.err.println("Service with token " + token + " not found in registry.");
-            return false;
-        }
-    
-        // Update fields in the existing ServiceInfo instance
-        try{
-        existingInfo.serviceName = updatedInfo.serviceName;
-        existingInfo.serviceVersion = updatedInfo.serviceVersion;
-        existingInfo.cpuUsagePercent = updatedInfo.cpuUsagePercent;
-        existingInfo.memoryUsagePercent = updatedInfo.memoryUsagePercent;
-        existingInfo.diskUsagePercent = updatedInfo.diskUsagePercent;
-        existingInfo.networkInboundKbps = updatedInfo.networkInboundKbps;
-        existingInfo.networkOutboundKbps = updatedInfo.networkOutboundKbps;
-        existingInfo.activeThreads = updatedInfo.activeThreads;
-        existingInfo.availableThreads = updatedInfo.availableThreads;
-        existingInfo.openConnections = updatedInfo.openConnections;
-        existingInfo.requestsPerSecond = updatedInfo.requestsPerSecond;
-        existingInfo.avgRequestLatencyMs = updatedInfo.avgRequestLatencyMs;
-        existingInfo.errorRatePercent = updatedInfo.errorRatePercent;
-        existingInfo.queueLength = updatedInfo.queueLength;
-        existingInfo.avgQueueWaitTimeMs = updatedInfo.avgQueueWaitTimeMs;
-        existingInfo.completedTasks = updatedInfo.completedTasks;
-        existingInfo.serviceStatus = updatedInfo.serviceStatus;
-        existingInfo.errorCount = updatedInfo.errorCount;
-        existingInfo.warningCount = updatedInfo.warningCount;
-        existingInfo.lastRestartTime = updatedInfo.lastRestartTime;
-        existingInfo.uptimeSeconds = updatedInfo.uptimeSeconds;
-
-        return true;
-        }
-        catch(Exception e)
-        {
-
-        }
-        return false;
-        
-
-
-    }
-    */
-
 
     /**
      * Shuts down the shared channel.
