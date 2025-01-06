@@ -6,19 +6,14 @@ import io.grpc.ManagedChannelBuilder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
+
 //import java.util.UUID;
 
 public class ServiceRegistry {
 
     private final Map<String, ServiceInfo> rpcServices;
-    private final ManagedChannel channel;
 
-    public ServiceRegistry(String address, int port) {
-        // Create a single channel for all services
-        channel = ManagedChannelBuilder
-                .forAddress(address, port)
-                .usePlaintext() // Disable SSL for local testing; enable in production
-                .build();
+    public ServiceRegistry() {
         rpcServices = new ConcurrentHashMap<>();
     }
 
@@ -47,23 +42,6 @@ public class ServiceRegistry {
      */
     public ServiceInfo getServiceInfo(String token) {
         return rpcServices.get(token);
-    }
-
-
-    /**
-     * Shuts down the shared channel.
-     */
-    public void shutdownChannel() {
-        channel.shutdown();
-    }
-
-    /**
-     * Gets the shared ManagedChannel.
-     *
-     * @return the ManagedChannel.
-     */
-    public ManagedChannel getChannel() {
-        return channel;
     }
 
     /**
