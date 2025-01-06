@@ -98,31 +98,32 @@ public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateRe
     }
 
     // Update fields from the Protobuf message
-    serviceInfo.serviceName = updateReq.getServiceName();
-    serviceInfo.serviceVersion = updateReq.getServiceVersion();
-    serviceInfo.cpuUsagePercent = updateReq.getCpuUsagePercent();
-    serviceInfo.memoryUsagePercent = updateReq.getMemoryUsagePercent();
-    serviceInfo.diskUsagePercent = updateReq.getDiskUsagePercent();
-    serviceInfo.networkInboundKbps = updateReq.getNetworkInboundKbps();
-    serviceInfo.networkOutboundKbps = updateReq.getNetworkOutboundKbps();
-    serviceInfo.activeThreads = updateReq.getActiveThreads();
-    serviceInfo.availableThreads = updateReq.getAvailableThreads();
-    serviceInfo.openConnections = updateReq.getOpenConnections();
-    serviceInfo.requestsPerSecond = updateReq.getRequestsPerSecond();
-    serviceInfo.avgRequestLatencyMs = updateReq.getAvgRequestLatencyMs();
-    serviceInfo.errorRatePercent = updateReq.getErrorRatePercent();
-    serviceInfo.queueLength = updateReq.getQueueLength();
-    serviceInfo.avgQueueWaitTimeMs = updateReq.getAvgQueueWaitTimeMs();
-    serviceInfo.completedTasks = updateReq.getCompletedTasks();
-    serviceInfo.serviceStatus = updateReq.getServiceStatus();
-    serviceInfo.errorCount = updateReq.getErrorCount();
-    serviceInfo.warningCount = updateReq.getWarningCount();
+    serviceInfo.setServiceName(updateReq.getServiceName());
+    serviceInfo.setServiceVersion(updateReq.getServiceVersion());
+    serviceInfo.setCpuUsagePercent(updateReq.getCpuUsagePercent());
+    serviceInfo.setMemoryUsagePercent(updateReq.getMemoryUsagePercent());
+    serviceInfo.setDiskUsagePercent(updateReq.getDiskUsagePercent());
+    serviceInfo.setNetworkInboundKbps(updateReq.getNetworkInboundKbps());
+    serviceInfo.setNetworkOutboundKbps(updateReq.getNetworkOutboundKbps());
+    serviceInfo.setActiveThreads(updateReq.getActiveThreads());
+    serviceInfo.setAvailableThreads(updateReq.getAvailableThreads());
+    serviceInfo.setOpenConnections(updateReq.getOpenConnections());
+    serviceInfo.setRequestsPerSecond(updateReq.getRequestsPerSecond());
+    serviceInfo.setAvgRequestLatencyMs(updateReq.getAvgRequestLatencyMs());
+    serviceInfo.setErrorRatePercent(updateReq.getErrorRatePercent());
+    serviceInfo.setQueueLength(updateReq.getQueueLength());
+    serviceInfo.setAvgQueueWaitTimeMs(updateReq.getAvgQueueWaitTimeMs());
+    serviceInfo.setCompletedTasks(updateReq.getCompletedTasks());
+    serviceInfo.setServiceStatus(updateReq.getServiceStatus());
+    serviceInfo.setErrorCount(updateReq.getErrorCount());
+    serviceInfo.setWarningCount(updateReq.getWarningCount());
+    serviceInfo.setUptimeSeconds(updateReq.getUptimeSeconds());
 
     if (!updateReq.getLastRestartTime().isEmpty()) {
-        serviceInfo.lastRestartTime = Instant.parse(updateReq.getLastRestartTime());
+        serviceInfo.setLastRestartTime(Instant.parse(updateReq.getLastRestartTime()));
     }
 
-    serviceInfo.uptimeSeconds = updateReq.getUptimeSeconds();
+    serviceInfo.setUptimeSeconds(updateReq.getUptimeSeconds());
 
     // Respond with success
     UpdateResponse responseMessage = UpdateResponse.newBuilder()
