@@ -3,6 +3,8 @@ package com.anarchodynamics.cezvegateway;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 //import java.util.UUID;
@@ -10,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ServiceRegistry {
 
     private final Map<String, ServiceInfo> rpcServices;
+    private static final Logger registryLogger = LogAgent.getLogger(ServiceRegistry.class);
 
 
     public ServiceRegistry() {
@@ -28,7 +31,8 @@ public class ServiceRegistry {
         }
         catch(Exception e)
         {
-            
+            registryLogger.log(Level.WARNING, () -> "Registration of service " + serviceName + "with address: " + serviceAddress + " failed.");
+            registryLogger.log(Level.WARNING, "Exception caught: ", e);
         }
         return false;
     }

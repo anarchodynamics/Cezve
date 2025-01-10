@@ -1,7 +1,6 @@
 package com.anarchodynamics.cezvegateway;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+
 import cezve.grpc.RegisterGrpc;
 import cezve.grpc.SendRegisterReq;
 import cezve.grpc.RegisterResponse;
@@ -14,16 +13,30 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.util.concurrent.ExecutorService;
+
+
 public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
 
     private ServiceRegistry registry;
-    private Logger registerLogger;
+    private Logger registerLogger = LogAgent.getLogger(RegisterServiceImpl.class);
+    private final ExecutorService localexec;
 
 
-    public RegisterServiceImpl(ServiceRegistry registryInstance)
+    public RegisterServiceImpl(ServiceRegistry registryInstance, ExecutorService ex)
     {
         this.registry = registryInstance;
+        this.localexec = ex;
     }
+
+    private RegisterResponse createResponse(boolean status, String token) {
+        return RegisterResponse.newBuilder()
+            .setReceiverName("API Gateway")
+            .setRegisteredStatus(status)
+            .setServiceToken(token)
+            .build();
+    } 
+
 
     @Override
     public void registerRequest(SendRegisterReq request, StreamObserver<RegisterResponse> responseObserver) {
@@ -33,15 +46,11 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
         String serviceAddress = request.getServiceAddress();
         int servicePort = request.getServicePort();
 
-        boolean registeredStatus = false;
-
-
-        String token = UUID.randomUUID().toString().replace("-", "").substring(0, 24);
         try
         {
+            String token = UUID.randomUUID().toString().replace("-", "").substring(0, 24);
             this.registry.registerService(serviceName,serviceType,serviceAddress, servicePort, token);
 
-            registeredStatus = true;
 
         }
         catch(Exception e)
@@ -49,37 +58,15 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
             registerLogger.log(Level.SEVERE,"Registration of: " + serviceName + " failed", e);
         }
         
-
-        //response will go ahead one way or another
-        //this current implementation is to ensure the service knows whether or not to try again
-        //WIP?
-        if(registeredStatus == true)
-        {
-            RegisterResponse response = RegisterResponse.newBuilder()
-            .setReceiverName("API Gateway") 
-            .setRegisteredStatus(registeredStatus)      
-            .setServiceToken(token) 
-            .build();
+           // RegisterResponse response = RegisterResponse.newBuilder()
+           // .setReceiverName("API Gateway") 
+           // .setRegisteredStatus(registeredStatus)      
+           // .setServiceToken("0") 
+           // .build();
 
                     // Send the response
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-
-
-        }
-        else
-        {
-            RegisterResponse response = RegisterResponse.newBuilder()
-            .setReceiverName("API Gateway") 
-            .setRegisteredStatus(registeredStatus)      
-            .setServiceToken("0") 
-            .build();
-
-                    // Send the response
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-        }
-
+       // responseObserver.onNext(response);
+       // responseObserver.onCompleted();
     }
     
 @Override
