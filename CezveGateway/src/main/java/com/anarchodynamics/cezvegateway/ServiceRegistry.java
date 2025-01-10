@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import cezve.grpc.ServiceType;
 
 
 //import java.util.UUID;
@@ -24,7 +25,7 @@ public class ServiceRegistry {
      *
      * @param serviceName the name of the service to register.
      */
-    public boolean registerService(String serviceName, String serviceType, String serviceAddress, int servicePort, String token) {
+    public boolean registerService(String serviceName, ServiceType serviceType, String serviceAddress, int servicePort, String token) {
         try{
         rpcServices.put(token, new ServiceInfo(serviceName, serviceType, serviceAddress,servicePort));
         return true;

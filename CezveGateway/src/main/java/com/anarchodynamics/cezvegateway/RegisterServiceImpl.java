@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CompletableFuture;
 
+import cezve.grpc.ServiceType;
+
 
 public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
 
@@ -42,7 +44,7 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
     @Override
     public void registerRequest(SendRegisterReq request, StreamObserver<RegisterResponse> responseObserver) {
  
-        String serviceType = request.getServiceType();
+        ServiceType serviceType = request.getServiceType();
         String serviceName = request.getServiceName();
         String serviceAddress = request.getServiceAddress();
         int servicePort = request.getServicePort();

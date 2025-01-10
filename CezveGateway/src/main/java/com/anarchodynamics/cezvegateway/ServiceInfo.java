@@ -1,10 +1,11 @@
 package com.anarchodynamics.cezvegateway;
 import java.time.Instant;
+import cezve.grpc.ServiceType;
 
 public class ServiceInfo {
     // Private fields
     private String serviceName;
-    private String serviceType;
+    private ServiceType serviceType;
     private String serviceVersion;
     private String serviceAddress;
     private int servicePort;
@@ -34,7 +35,7 @@ public class ServiceInfo {
     private Long uptimeSeconds;
 
     // Constructor
-    public ServiceInfo(String serviceNameInit, String serviceTypeInit, String serviceAddress, int port) {
+    public ServiceInfo(String serviceNameInit, ServiceType serviceTypeInit, String serviceAddress, int port) {
         this.serviceName = serviceNameInit;
         this.serviceType = serviceTypeInit;
         this.serviceAddress = serviceAddress;
@@ -50,11 +51,11 @@ public class ServiceInfo {
         this.serviceName = serviceName;
     }
 
-    public synchronized String getServiceType() {
+    public synchronized ServiceType getServiceType() {
         return serviceType;
     }
 
-    public synchronized void setServiceType(String serviceType) {
+    public synchronized void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
     }
 

@@ -10,9 +10,14 @@ service Register{
     rpc RegisterRequest (SendRegisterReq) returns (RegisterResponse);
     rpc UpdateServiceStatus (ServiceUpdate) returns (UpdateResponse);
 }
-
+enum ServiceType
+{
+     NONE = 0;
+     AUTH = 1;
+     DATA = 2;
+}
 message SendRegisterReq{
-     string service_type = 1;
+     ServiceType service_type = 1;
      string service_name = 2;
      string service_address = 3;
      int32 service_port = 4;
