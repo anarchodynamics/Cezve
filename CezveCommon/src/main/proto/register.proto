@@ -64,5 +64,5 @@ message RegisterResponse{
 
 message UpdateResponse{
      string receiver_name = 1;  //API gateway self-reported name. 
-     string responseStatus = 2; //For logging/acknowledging.
+     bool responseStatus = 2; 
 }

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.CompletableFuture;
 
 
 public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
@@ -29,7 +30,7 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
         this.localexec = ex;
     }
 
-    private RegisterResponse createResponse(boolean status, String token) {
+    private RegisterResponse createRegisterResponse(boolean status, String token) {
         return RegisterResponse.newBuilder()
             .setReceiverName("API Gateway")
             .setRegisteredStatus(status)
@@ -46,16 +47,18 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
         String serviceAddress = request.getServiceAddress();
         int servicePort = request.getServicePort();
 
+
+        CompletableFuture.supplyAsync(() -> {
         try
         {
             String token = UUID.randomUUID().toString().replace("-", "").substring(0, 24);
             this.registry.registerService(serviceName,serviceType,serviceAddress, servicePort, token);
-
-
+            return createRegisterResponse(true, token);
         }
         catch(Exception e)
         {
-            registerLogger.log(Level.SEVERE,"Registration of: " + serviceName + " failed", e);
+            registerLogger.log(Level.WARNING,"Registration of: " + serviceName + " failed", e);
+            return createRegisterResponse(false, "0");
         }
         
            // RegisterResponse response = RegisterResponse.newBuilder()
@@ -67,10 +70,30 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
                     // Send the response
        // responseObserver.onNext(response);
        // responseObserver.onCompleted();
-    }
+
+
+    }, localexec).whenComplete((response,throwable) -> 
+    {
+        if (throwable != null) {
+            registerLogger.log(Level.WARNING, "Unexpected error during registration", throwable);
+            responseObserver.onNext(createRegisterResponse(false, "0"));
+        } else {
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
+    });
+}
     
+
+private UpdateResponse createUpdateResponse(boolean status)
+{        return UpdateResponse.newBuilder()
+    .setReceiverName("API Gateway")
+    .setResponseStatus(status)
+    .build();
+
+}
 @Override
-public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateResponse> response) {
+public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateResponse> responseObserver) {
     String serviceToken = updateReq.getServiceToken();
 
     // Retrieve the ServiceInfo object from the registry
@@ -80,8 +103,9 @@ public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateRe
         registerLogger.log(Level.WARNING,"Error finding service with token: " + serviceToken);
         return;
     }
-
-    // Update fields from the Protobuf message
+    CompletableFuture.supplyAsync(() -> { 
+    try
+    {
     serviceInfo.setServiceName(updateReq.getServiceName());
     serviceInfo.setServiceVersion(updateReq.getServiceVersion());
     serviceInfo.setCpuUsagePercent(updateReq.getCpuUsagePercent());
@@ -106,16 +130,26 @@ public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateRe
     if (!updateReq.getLastRestartTime().isEmpty()) {
         serviceInfo.setLastRestartTime(Instant.parse(updateReq.getLastRestartTime()));
     }
+    return createUpdateResponse(true);
 
-    serviceInfo.setUptimeSeconds(updateReq.getUptimeSeconds());
+    }
 
-    // Respond with success
-    UpdateResponse responseMessage = UpdateResponse.newBuilder()
-        .setReceiverName("API Gateway")
-        .setResponseStatus("Update successful.")
-        .build();
-    response.onNext(responseMessage);
-    response.onCompleted();
+    catch(Exception e)
+    {
+        registerLogger.log(Level.WARNING, "Updating a service object failed with name " + updateReq.getServiceName(), e);
+        return createUpdateResponse(false);
+
+    }},localexec).whenComplete((response,throwable) ->
+    {
+        if (throwable != null) {
+            registerLogger.log(Level.WARNING, "Unexpected error during update ", throwable);
+            responseObserver.onNext(createUpdateResponse(false));
+        } else {
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
+    });
+
 }
 
 

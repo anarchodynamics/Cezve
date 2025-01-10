@@ -32,7 +32,7 @@ public class CezveGateway {
             new LinkedBlockingQueue<>());
 
         this.gatewayServer = ServerBuilder.forPort(port)
-                                        .addService(new RegisterServiceImpl(registry))
+                                        .addService(new RegisterServiceImpl(registry,serviceClientPool))
                                         .executor(serviceClientPool)
                                         .build()
                                         .start();
