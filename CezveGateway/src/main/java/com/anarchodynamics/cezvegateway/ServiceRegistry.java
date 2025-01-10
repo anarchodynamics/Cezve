@@ -1,17 +1,16 @@
 package com.anarchodynamics.cezvegateway;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-//import java.util.HashMap;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
+
 
 //import java.util.UUID;
 
 public class ServiceRegistry {
 
     private final Map<String, ServiceInfo> rpcServices;
+
 
     public ServiceRegistry() {
         rpcServices = new ConcurrentHashMap<>();

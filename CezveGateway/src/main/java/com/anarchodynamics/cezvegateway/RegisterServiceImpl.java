@@ -80,9 +80,6 @@ public class RegisterServiceImpl extends RegisterGrpc.RegisterImplBase {
         responseObserver.onCompleted();
         }
 
-
-
-
     }
     
 @Override

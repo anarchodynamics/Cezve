@@ -21,23 +21,26 @@ public class CezveGateway {
     private final int port;
 
     private final Server gatewayServer;
-
+    
     private static final int THREAD_MAX = Runtime.getRuntime().availableProcessors() * 2;
 
     public CezveGateway(ServiceRegistry registry, int port) throws IOException {
 
+        this.serviceClientPool = new ThreadPoolExecutor(
+            THREAD_MAX, THREAD_MAX,
+            9600, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>());
+
         this.gatewayServer = ServerBuilder.forPort(port)
                                         .addService(new RegisterServiceImpl(registry))
+                                        .executor(serviceClientPool)
                                         .build()
                                         .start();
 
         this.port = port;
         this.registry = registry;
 
-        this.serviceClientPool = new ThreadPoolExecutor(
-                THREAD_MAX, THREAD_MAX,
-                9600, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>());
+
 
     }
 
