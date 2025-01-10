@@ -15,7 +15,6 @@ import io.grpc.ServerBuilder;
  */
 public class CezveGateway {
 
-    private final ExecutorService userClientPool;
     private final ExecutorService serviceClientPool;
     private final ServiceRegistry registry;
 
@@ -23,8 +22,7 @@ public class CezveGateway {
 
     private final Server gatewayServer;
 
-    private static final int USER_THREADS = Runtime.getRuntime().availableProcessors() * 2;
-    private static final int SERVICE_THREADS = Runtime.getRuntime().availableProcessors();
+    private static final int THREAD_MAX = Runtime.getRuntime().availableProcessors() * 2;
 
     public CezveGateway(ServiceRegistry registry, int port) throws IOException {
 
@@ -35,13 +33,9 @@ public class CezveGateway {
 
         this.port = port;
         this.registry = registry;
-        this.userClientPool = new ThreadPoolExecutor(
-                USER_THREADS, USER_THREADS,
-                9600, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>());
 
         this.serviceClientPool = new ThreadPoolExecutor(
-                SERVICE_THREADS, SERVICE_THREADS,
+                THREAD_MAX, THREAD_MAX,
                 9600, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>());
 
