@@ -28,7 +28,6 @@ public class ServiceInfo {
     private Double avgQueueWaitTimeMs;
     private Long completedTasks;
 
-    private String serviceStatus;
     private Integer errorCount;
     private Integer warningCount;
     private Instant lastRestartTime;
@@ -193,14 +192,6 @@ public class ServiceInfo {
 
     public synchronized void setCompletedTasks(Long completedTasks) {
         this.completedTasks = completedTasks;
-    }
-
-    public synchronized String getServiceStatus() {
-        return serviceStatus;
-    }
-
-    public synchronized void setServiceStatus(String serviceStatus) {
-        this.serviceStatus = serviceStatus;
     }
 
     public synchronized Integer getErrorCount() {

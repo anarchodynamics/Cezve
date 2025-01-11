@@ -124,7 +124,6 @@ public void updateServiceStatus(ServiceUpdate updateReq, StreamObserver<UpdateRe
     serviceInfo.setQueueLength(updateReq.getQueueLength());
     serviceInfo.setAvgQueueWaitTimeMs(updateReq.getAvgQueueWaitTimeMs());
     serviceInfo.setCompletedTasks(updateReq.getCompletedTasks());
-    serviceInfo.setServiceStatus(updateReq.getServiceStatus());
     serviceInfo.setErrorCount(updateReq.getErrorCount());
     serviceInfo.setWarningCount(updateReq.getWarningCount());
     serviceInfo.setUptimeSeconds(updateReq.getUptimeSeconds());

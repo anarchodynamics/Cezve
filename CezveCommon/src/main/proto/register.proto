@@ -53,11 +53,10 @@ message ServiceUpdate{
     int64 completed_tasks = 19;
 
     // Health and status
-    string service_status = 20;         // "HEALTHY", "DEGRADED", "UNAVAILABLE"
-    int32 error_count = 21;
-    int32 warning_count = 22;
-    string last_restart_time = 23;      // ISO 8601 format
-    int64 uptime_seconds = 24;
+    int32 error_count = 20;
+    int32 warning_count = 21;
+    string last_restart_time = 22;      // ISO 8601 format
+    int64 uptime_seconds = 23;
 
 }
 

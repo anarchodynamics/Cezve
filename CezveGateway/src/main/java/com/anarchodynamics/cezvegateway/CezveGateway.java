@@ -40,8 +40,6 @@ public class CezveGateway {
         this.port = port;
         this.registry = registry;
 
-
-
     }
 
     public static void main(String[] args) throws IOException {
